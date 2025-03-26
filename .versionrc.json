@@ -1,0 +1,16 @@
+{
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "chore", "section": "Minor Changes" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "style", "hidden": true },
+    { "type": "refactor", "section": "Optimizations" },
+    { "type": "perf", "section": "Performance Adjustments" },
+    { "type": "test", "section": "Test" },
+    { "type": "build", "section": "Build Pipeline Adjustments" },
+    { "type": "ci", "section": "Technical Adjustment" }
+  ],
+  "commitUrlFormat": "https://github.com/hjmosedk/reactFrontEnd/commits/{{hash}}",
+  "compareUrlFormat": "https://github.com/hjmosedk/reactFrontEnd/compare/{{previousTag}}...{{currentTag}}"
+}
