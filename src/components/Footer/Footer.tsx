@@ -31,8 +31,8 @@ export const Footer = () => {
       <AppBar position='static'>
         <Toolbar>
           <Typography variant='body2' component='div' sx={{ flexGrow: 1 }}>
-            <Copyright sx={{ mr: 0.5 }} /> {new Date().getFullYear()} Rainbow
-            Baby Dragon Shop
+            <Copyright sx={{ mr: 0.5, fontSize: '1rem' }} />{' '}
+            {new Date().getFullYear()} Rainbow Baby Dragon Shop
           </Typography>
 
           {socialLinks.map((social, index) => (

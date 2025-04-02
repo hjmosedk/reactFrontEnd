@@ -1,6 +1,25 @@
 import { Box, Button, Typography } from '@mui/material';
+import { getProducts } from '../services/productsService';
+import { useProducts } from '../contexts/products/ProductsContext';
+import { ProductsActionsTypes } from '../contexts/products/ProductsActions';
 
 export const HeroPage = () => {
+  const { state, dispatch } = useProducts();
+
+  const onClick = async () => {
+    try {
+      const response = await getProducts({ limit: 25, page: 1 });
+      console.log('response', response);
+      dispatch({
+        type: ProductsActionsTypes.GET_PRODUCTS_SUCCESS,
+        payload: response,
+      });
+      console.log('ProductsState', state);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -28,7 +47,9 @@ export const HeroPage = () => {
           fontSize: '1.5rem',
           borderRadius: '8px',
         }}
-        onClick={() => alert('CTA Clicked!')} // Replace with your desired action
+        onClick={() => {
+          onClick();
+        }}
       >
         Shop Now
       </Button>
