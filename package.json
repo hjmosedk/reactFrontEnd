@@ -29,7 +29,8 @@
     "ckh-typings": "file:../../typings",
     "dinero.js": "^1.9.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^7.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
@@ -37,6 +38,7 @@
     "@types/dinero.js": "^1.9.4",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
+    "@types/react-router": "^5.1.20",
     "@vitejs/plugin-react": "^4.3.4",
     "commit-and-tag-version": "^12.5.0",
     "eslint": "^9.23.0",

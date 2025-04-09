@@ -13,7 +13,7 @@ import { ProductsActions } from './ProductsActions';
 import { productsReducer } from './ProductsReducer';
 
 export interface ProductsState {
-  productList: NormalizedProduct | null;
+  productList: { id: number[]; productList: NormalizedProduct } | null;
   selectedProduct: Ecommerce.ProductModel | null;
   page: number;
   limit: number;
@@ -35,16 +35,16 @@ const initialState: ProductsState = {
 };
 
 const ProductsContext = createContext<
-  { state: ProductsState; dispatch: Dispatch<ProductsActions> } | undefined
+  { products: ProductsState; dispatch: Dispatch<ProductsActions> } | undefined
 >(undefined);
 
 export const ProductsProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const [state, dispatch] = useReducer(productsReducer, initialState);
+  const [products, dispatch] = useReducer(productsReducer, initialState);
 
   return (
     <ProductsContext.Provider
       value={{
-        state,
+        products,
         dispatch,
       }}
     >

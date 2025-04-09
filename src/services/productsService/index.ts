@@ -1,10 +1,7 @@
-import {
-  normalizeProducts,
-  NormalizedProduct,
-} from './../../utils/normalization';
+import { normalizeProducts, ProductList } from './../../utils/normalization';
 import { Ecommerce } from 'ckh-typings';
 
-import api from '../api';
+import api from '../api/apiClient';
 
 interface QueryParams {
   limit: number;
@@ -20,7 +17,7 @@ interface ApiResponse {
 }
 
 export interface NormalizedApiResponse {
-  productsList: NormalizedProduct;
+  productsList: ProductList;
   page: number;
   limit: number;
   totalCount: number;

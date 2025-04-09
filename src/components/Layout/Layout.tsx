@@ -1,12 +1,12 @@
 import { FC, ReactNode } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <div>
+    <Container>
+      <Box sx={(theme) => ({ flexGrow: 1, m: theme.spacing(2) })}>
         <header>
           <Header />
         </header>
@@ -14,8 +14,8 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
         <footer>
           <Footer />
         </footer>
-      </div>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 
