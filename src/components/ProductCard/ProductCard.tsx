@@ -24,7 +24,12 @@ export const ProductCard: FC<AllProductsPageProps> = ({ product }) => {
     <>
       <Card
         elevation={3}
-        sx={{ height: '400px', display: 'flex', flexDirection: 'column' }}
+        sx={{
+          height: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+        }}
       >
         <CardMedia
           component='img'

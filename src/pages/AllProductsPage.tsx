@@ -1,15 +1,46 @@
+import { ChangeEvent, useState, useEffect } from 'react';
 import { useProductList } from '../hooks';
 import { ProductCard } from '../components/ProductCard/ProductCard';
-import { Box, Grid, Stack } from '@mui/material';
+import { PaginationComponent } from '../components/Pagination/Pagination';
+import { Box, Grid, Stack, SelectChangeEvent } from '@mui/material';
 
 export const AllProductsPage = () => {
-  const { productList, loading } = useProductList();
+  const {
+    productList,
+    loading,
+    limit: ApiLimit,
+    page: ApiPage,
+    totalPages,
+    fetchProducts,
+  } = useProductList();
+  const [limit, setLimit] = useState(ApiLimit);
+  const [page, setPage] = useState(ApiPage);
+
+  useEffect(() => {
+    fetchProducts(limit, page);
+  }, [limit, page]);
+
+  const handleLimitChange = (event: SelectChangeEvent) => {
+    setLimit(parseInt(event.target.value));
+    setPage(1);
+  };
+
+  const handlePageChange = (_: ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <Box>
       {loading && <div>Loading...</div>}
       {!loading && productList && (
         <Box>
+          <PaginationComponent
+            page={page}
+            totalPages={totalPages}
+            limit={limit}
+            handleLimitChange={handleLimitChange}
+            handlePageChange={handlePageChange}
+          />
           <Grid
             container
             spacing={2}
@@ -39,6 +70,13 @@ export const AllProductsPage = () => {
               </Grid>
             ))}
           </Grid>
+          <PaginationComponent
+            page={page}
+            totalPages={totalPages}
+            limit={limit}
+            handleLimitChange={handleLimitChange}
+            handlePageChange={handlePageChange}
+          />
         </Box>
       )}
     </Box>

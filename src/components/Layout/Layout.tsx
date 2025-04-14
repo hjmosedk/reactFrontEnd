@@ -5,7 +5,7 @@ import { Box, Container } from '@mui/material';
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <Container>
+    <Container maxWidth={false} sx={{ height: '100%' }}>
       <Box sx={(theme) => ({ flexGrow: 1, m: theme.spacing(2) })}>
         <header>
           <Header />

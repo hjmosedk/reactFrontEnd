@@ -11,6 +11,7 @@ export const productsReducer = (
         ...state,
         loading: true,
       };
+
     case ProductsActionsTypes.GET_PRODUCTS_SUCCESS:
       return {
         ...state,
@@ -29,6 +30,17 @@ export const productsReducer = (
         ...state,
         loading: false,
         error: action.payload?.error as ProductsState['error'],
+      };
+
+    case ProductsActionsTypes.SET_PAGE:
+      return {
+        ...state,
+        page: action.payload?.page as ProductsState['page'],
+      };
+    case ProductsActionsTypes.SET_LIMIT:
+      return {
+        ...state,
+        limit: action.payload?.limit as ProductsState['limit'],
       };
     default:
       return state;

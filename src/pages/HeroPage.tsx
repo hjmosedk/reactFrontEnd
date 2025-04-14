@@ -9,7 +9,7 @@ export const HeroPage = () => {
   return (
     <Box
       sx={{
-        height: '100vh',
+        height: '85vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

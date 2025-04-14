@@ -7,6 +7,8 @@ export enum ProductsActionsTypes {
   GET_PRODUCT_REQUEST = 'GET_PRODUCT_REQUEST',
   GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS',
   GET_PRODUCT_FAILURE = 'GET_PRODUCT_FAILURE',
+  SET_PAGE = 'SET_PAGE',
+  SET_LIMIT = 'SET_LIMIT',
 }
 
 interface ProductsPayload extends NormalizedApiResponse {
