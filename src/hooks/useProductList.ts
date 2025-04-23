@@ -24,15 +24,23 @@ export const useProductList = () => {
       } catch (error) {
         dispatch({
           type: ProductsActionsTypes.GET_PRODUCTS_FAILURE,
+          payload: { error: (error as Error).message },
         });
       }
     },
-    [dispatch, limit, page],
+    [dispatch],
   );
 
   useEffect(() => {
     fetchProducts(limit, page);
-  }, [fetchProducts]);
+  }, [limit, page]);
 
-  return { productList, loading, fetchProducts, limit, page, totalPages };
+  return {
+    productList,
+    loading,
+    fetchProducts,
+    limit,
+    page,
+    totalPages,
+  };
 };

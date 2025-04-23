@@ -8,13 +8,11 @@ import {
 } from 'react';
 
 import { NormalizedProduct } from '../../utils/normalization';
-import { Ecommerce } from 'ckh-typings';
 import { ProductsActions } from './ProductsActions';
 import { productsReducer } from './ProductsReducer';
 
 export interface ProductsState {
   productList: { id: number[]; productList: NormalizedProduct } | null;
-  selectedProduct: Ecommerce.ProductModel | null;
   page: number;
   limit: number;
   totalCount: number;
@@ -25,7 +23,6 @@ export interface ProductsState {
 
 const initialState: ProductsState = {
   productList: null,
-  selectedProduct: null,
   page: 1,
   limit: 25,
   totalCount: 0,

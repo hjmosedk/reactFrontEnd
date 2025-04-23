@@ -44,3 +44,15 @@ export const getProducts = async (
     throw error;
   }
 };
+
+export const getProductById = async (
+  id: number,
+): Promise<Ecommerce.ProductModel> => {
+  try {
+    const response = await api.get<Ecommerce.ProductModel>(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching product with id ${id}`, error);
+    throw error;
+  }
+};

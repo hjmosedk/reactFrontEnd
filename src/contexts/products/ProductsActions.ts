@@ -11,11 +11,19 @@ export enum ProductsActionsTypes {
   SET_LIMIT = 'SET_LIMIT',
 }
 
-interface ProductsPayload extends NormalizedApiResponse {
+interface GetProductsSuccessPayload extends NormalizedApiResponse {
   error?: string;
 }
 
-export interface ProductsActions {
-  type: ProductsActionsTypes;
-  payload?: ProductsPayload;
-}
+export type ProductsActions =
+  | { type: ProductsActionsTypes.GET_PRODUCTS_REQUEST }
+  | {
+      type: ProductsActionsTypes.GET_PRODUCTS_SUCCESS;
+      payload: GetProductsSuccessPayload;
+    }
+  | {
+      type: ProductsActionsTypes.GET_PRODUCTS_FAILURE;
+      payload: { error: string };
+    }
+  | { type: ProductsActionsTypes.SET_PAGE; payload: { page: number } }
+  | { type: ProductsActionsTypes.SET_LIMIT; payload: { limit: number } };

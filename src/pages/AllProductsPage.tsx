@@ -3,6 +3,7 @@ import { useProductList } from '../hooks';
 import { ProductCard } from '../components/ProductCard/ProductCard';
 import { PaginationComponent } from '../components/Pagination/Pagination';
 import { Box, Grid, Stack, SelectChangeEvent } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 export const AllProductsPage = () => {
   const {
@@ -15,6 +16,7 @@ export const AllProductsPage = () => {
   } = useProductList();
   const [limit, setLimit] = useState(ApiLimit);
   const [page, setPage] = useState(ApiPage);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts(limit, page);
@@ -65,7 +67,11 @@ export const AllProductsPage = () => {
                   direction='row'
                   sx={{ height: '100%', width: '100%' }}
                 >
-                  <ProductCard product={productList.productList[id]} />
+                  <ProductCard
+                    product={productList.productList[id]}
+                    onClick={() => navigate(`/products/${id}`)}
+                    singlePage={false}
+                  />
                 </Stack>
               </Grid>
             ))}

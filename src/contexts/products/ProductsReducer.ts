@@ -17,11 +17,11 @@ export const productsReducer = (
         ...state,
         loading: false,
         productList: action.payload
-          ?.productsList as ProductsState['productList'],
-        page: action.payload?.page as ProductsState['page'],
-        limit: action.payload?.limit as ProductsState['limit'],
-        totalCount: action.payload?.totalCount as ProductsState['totalCount'],
-        totalPages: action.payload?.totalPages as ProductsState['totalPages'],
+          .productsList as ProductsState['productList'],
+        page: action.payload.page as ProductsState['page'],
+        limit: action.payload.limit as ProductsState['limit'],
+        totalCount: action.payload.totalCount as ProductsState['totalCount'],
+        totalPages: action.payload.totalPages as ProductsState['totalPages'],
         error: null,
       };
 
@@ -29,18 +29,18 @@ export const productsReducer = (
       return {
         ...state,
         loading: false,
-        error: action.payload?.error as ProductsState['error'],
+        error: action.payload.error as ProductsState['error'],
       };
 
     case ProductsActionsTypes.SET_PAGE:
       return {
         ...state,
-        page: action.payload?.page as ProductsState['page'],
+        page: action.payload.page as ProductsState['page'],
       };
     case ProductsActionsTypes.SET_LIMIT:
       return {
         ...state,
-        limit: action.payload?.limit as ProductsState['limit'],
+        limit: action.payload.limit as ProductsState['limit'],
       };
     default:
       return state;

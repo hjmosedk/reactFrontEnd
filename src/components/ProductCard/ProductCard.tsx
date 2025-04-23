@@ -9,6 +9,7 @@ import {
   Button,
   Box,
 } from '@mui/material';
+
 import Dinero from 'dinero.js';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -17,18 +18,27 @@ const imageUrl = `${baseUrl}${imagePath}`;
 
 interface AllProductsPageProps {
   product: Ecommerce.ProductModel;
+  onClick: () => void;
+  singlePage: boolean;
 }
 
-export const ProductCard: FC<AllProductsPageProps> = ({ product }) => {
+export const ProductCard: FC<AllProductsPageProps> = ({
+  product,
+  onClick,
+  singlePage,
+}) => {
   return (
     <>
       <Card
-        elevation={3}
+        elevation={singlePage ? 0 : 3}
         sx={{
-          height: '400px',
+          height: singlePage ? '1000px' : '400px',
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
+          paddingTop: singlePage ? '2rem' : undefined,
+          paddingLeft: singlePage ? '12rem' : undefined,
+          paddingRight: singlePage ? '12rem' : undefined,
         }}
       >
         <CardMedia
@@ -38,7 +48,7 @@ export const ProductCard: FC<AllProductsPageProps> = ({ product }) => {
           sx={{
             flex: 3,
             height: 0,
-            objectFit: 'cover',
+            objectFit: singlePage ? 'scale-down' : 'cover',
           }}
           loading='lazy'
         />
@@ -81,6 +91,7 @@ export const ProductCard: FC<AllProductsPageProps> = ({ product }) => {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
+                textAlign: 'center',
               }}
             >
               {product.description}
@@ -119,7 +130,18 @@ export const ProductCard: FC<AllProductsPageProps> = ({ product }) => {
           <Button size='small' color='primary' variant='contained'>
             Add to Cart
           </Button>
-          <Button size='small' color='secondary' variant='contained'>
+          {singlePage && (
+            <Button size='small' color='info' variant='contained'>
+              {' '}
+              Write Review
+            </Button>
+          )}
+          <Button
+            size='small'
+            color='secondary'
+            variant='contained'
+            onClick={() => onClick()}
+          >
             View Details
           </Button>
         </CardActions>
