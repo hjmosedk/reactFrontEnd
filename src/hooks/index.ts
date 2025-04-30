@@ -1,2 +1,2 @@
-export { useProductList } from './useProductList';
 export { useFetchProductById } from './useFetchProductById';
+export { useAppDispatch, useAppSelector } from './useStateHooks';

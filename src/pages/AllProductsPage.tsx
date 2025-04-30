@@ -1,26 +1,19 @@
-import { ChangeEvent, useState, useEffect } from 'react';
-import { useProductList } from '../hooks';
+import { ChangeEvent, useState } from 'react';
+import { useGetProductsQuery } from '../services/productsService';
 import { ProductCard } from '../components/ProductCard/ProductCard';
 import { PaginationComponent } from '../components/Pagination/Pagination';
 import { Box, Grid, Stack, SelectChangeEvent } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 export const AllProductsPage = () => {
-  const {
-    productList,
-    loading,
-    limit: ApiLimit,
-    page: ApiPage,
-    totalPages,
-    fetchProducts,
-  } = useProductList();
-  const [limit, setLimit] = useState(ApiLimit);
-  const [page, setPage] = useState(ApiPage);
-  const navigate = useNavigate();
+  const [limit, setLimit] = useState(25);
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetProductsQuery({
+    limit,
+    page,
+  });
 
-  useEffect(() => {
-    fetchProducts(limit, page);
-  }, [limit, page]);
+  const navigate = useNavigate();
 
   const handleLimitChange = (event: SelectChangeEvent) => {
     setLimit(parseInt(event.target.value));
@@ -33,12 +26,12 @@ export const AllProductsPage = () => {
 
   return (
     <Box>
-      {loading && <div>Loading...</div>}
-      {!loading && productList && (
+      {isLoading && <div>Loading...</div>}
+      {!isLoading && data && (
         <Box>
           <PaginationComponent
             page={page}
-            totalPages={totalPages}
+            totalPages={data.totalPages}
             limit={limit}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}
@@ -52,7 +45,7 @@ export const AllProductsPage = () => {
               paddingBottom: theme.spacing(2),
             })}
           >
-            {productList.id.map((id) => (
+            {data.productsList.id.map((id) => (
               <Grid
                 size={12 / 5}
                 key={id}
@@ -68,7 +61,7 @@ export const AllProductsPage = () => {
                   sx={{ height: '100%', width: '100%' }}
                 >
                   <ProductCard
-                    product={productList.productList[id]}
+                    product={data.productsList.productList[id]}
                     onClick={() => navigate(`/products/${id}`)}
                     singlePage={false}
                   />
@@ -78,7 +71,7 @@ export const AllProductsPage = () => {
           </Grid>
           <PaginationComponent
             page={page}
-            totalPages={totalPages}
+            totalPages={data.totalPages}
             limit={limit}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}

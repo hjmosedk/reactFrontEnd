@@ -1,7 +1,6 @@
 import { normalizeProducts, ProductList } from './../../utils/normalization';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Ecommerce } from 'ckh-typings';
-
-import api from '../api/apiClient';
 
 interface QueryParams {
   limit: number;
@@ -24,35 +23,28 @@ export interface NormalizedApiResponse {
   totalPages: number;
 }
 
-export const getProducts = async (
-  params: QueryParams,
-): Promise<NormalizedApiResponse> => {
-  try {
-    const response = await api.get<ApiResponse>('/products', {
-      params,
-    });
+export const productsApi = createApi({
+  reducerPath: 'productsApi',
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
+  endpoints: (builder) => ({
+    getProducts: builder.query<NormalizedApiResponse, QueryParams>({
+      query: (params) => ({
+        url: '/products',
+        params,
+      }),
+      transformResponse: (response: ApiResponse) => {
+        const { products, page, limit, totalCount, totalPages } = response;
+        const productsList = normalizeProducts(products);
+        return { productsList, page, limit, totalCount, totalPages };
+      },
+    }),
+    getProductById: builder.query<Ecommerce.ProductModel, number>({
+      query: (id) => `/products/${id}`,
+      transformResponse: (response: Ecommerce.ProductModel) => {
+        return response;
+      },
+    }),
+  }),
+});
 
-    const { products, page, limit, totalCount, totalPages } = response.data;
-
-    const productsList = normalizeProducts(products);
-    return { productsList, page, limit, totalCount, totalPages };
-  } catch (error) {
-    console.error(
-      `Error fetching products (params: ${JSON.stringify(params)})`,
-      error,
-    );
-    throw error;
-  }
-};
-
-export const getProductById = async (
-  id: number,
-): Promise<Ecommerce.ProductModel> => {
-  try {
-    const response = await api.get<Ecommerce.ProductModel>(`/products/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching product with id ${id}`, error);
-    throw error;
-  }
-};
+export const { useGetProductsQuery, useGetProductByIdQuery } = productsApi;

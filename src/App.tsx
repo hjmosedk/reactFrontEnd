@@ -4,17 +4,18 @@ import Layout from './components/Layout/Layout';
 import { HeroPage } from './pages/HeroPage';
 import { AllProductsPage } from './pages/AllProductsPage';
 import { ProductInfoPage } from './pages/ProductInfoPage';
-import { ProductsProvider } from './contexts/products/ProductsContext';
 import { CssBaseline, Container } from '@mui/material';
 import { Routes, Route } from 'react-router';
 import { NotFoundPage } from './pages/404-NotFoundPage';
+import { store } from './store';
+import { Provider } from 'react-redux';
 
 function App() {
   return (
     <Container maxWidth={false}>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <ProductsProvider>
+        <Provider store={store}>
           <Layout>
             <Routes>
               <Route path='/' element={<HeroPage />} />
@@ -23,7 +24,7 @@ function App() {
               <Route path='*' element={<NotFoundPage />} />
             </Routes>
           </Layout>
-        </ProductsProvider>
+        </Provider>
       </ThemeProvider>
     </Container>
   );
