@@ -2,7 +2,7 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from './theme/theme';
 import Layout from './components/Layout/Layout';
 import { HeroPage } from './pages/HeroPage';
-import { AllProductsPage } from './pages/AllProductsPage';
+import { AllProductsPage, DisplayMode } from './pages/AllProductsPage';
 import { ProductInfoPage } from './pages/ProductInfoPage';
 import { CssBaseline, Container } from '@mui/material';
 import { Routes, Route } from 'react-router';
@@ -19,7 +19,14 @@ function App() {
           <Layout>
             <Routes>
               <Route path='/' element={<HeroPage />} />
-              <Route path='/products' element={<AllProductsPage />} />
+              <Route
+                path='/products'
+                element={<AllProductsPage displayMode={DisplayMode.GRID} />}
+              />
+              <Route
+                path='/all-products'
+                element={<AllProductsPage displayMode={DisplayMode.LIST} />}
+              />
               <Route path='/products/:id' element={<ProductInfoPage />} />
               <Route path='*' element={<NotFoundPage />} />
             </Routes>
