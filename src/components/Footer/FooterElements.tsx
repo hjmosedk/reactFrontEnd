@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const SocialLink = ({
   icon,
@@ -15,7 +14,7 @@ export const SocialLink = ({
     aria-label={label}
     style={{ color: 'white', textDecoration: 'none' }}
   >
-    <FontAwesomeIcon icon={icon} size='2x' style={{ marginRight: '10px' }} />
+    {icon}
   </a>
 );
 

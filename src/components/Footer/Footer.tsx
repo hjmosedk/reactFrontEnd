@@ -1,22 +1,22 @@
 import { Box, AppBar, Toolbar, Typography } from '@mui/material';
-import {
-  faFacebook,
-  faTwitter,
-  faLinkedin,
-  faInstagram,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
 import { Grid } from '@mui/material';
 import { SocialLink, LegalLink } from './FooterElements';
-import { Copyright } from '@mui/icons-material';
+import {
+  Copyright,
+  Facebook,
+  X,
+  LinkedIn,
+  Instagram,
+  YouTube,
+} from '@mui/icons-material';
 
 export const Footer = () => {
   const socialLinks = [
-    { icon: faFacebook, href: '#', label: 'Facebook' },
-    { icon: faTwitter, href: '#', label: 'Twitter' },
-    { icon: faLinkedin, href: '#', label: 'LinkedIn' },
-    { icon: faInstagram, href: '#', label: 'Instagram' },
-    { icon: faYoutube, href: '#', label: 'YouTube' },
+    { icon: <Facebook fontSize='large' />, href: '#', label: 'Facebook' },
+    { icon: <X fontSize='large' />, href: '#', label: 'Twitter' },
+    { icon: <LinkedIn fontSize='large' />, href: '#', label: 'LinkedIn' },
+    { icon: <Instagram fontSize='large' />, href: '#', label: 'Instagram' },
+    { icon: <YouTube fontSize='large' />, href: '#', label: 'YouTube' },
   ];
 
   const legalLinks = [
