@@ -12,18 +12,34 @@ import {
 
 export const Footer = () => {
   const socialLinks = [
-    { icon: <Facebook fontSize='large' />, href: '#', label: 'Facebook' },
-    { icon: <X fontSize='large' />, href: '#', label: 'Twitter' },
-    { icon: <LinkedIn fontSize='large' />, href: '#', label: 'LinkedIn' },
-    { icon: <Instagram fontSize='large' />, href: '#', label: 'Instagram' },
-    { icon: <YouTube fontSize='large' />, href: '#', label: 'YouTube' },
+    {
+      icon: <Facebook fontSize='large' />,
+      href: 'https://facebook.com',
+      label: 'Facebook',
+    },
+    { icon: <X fontSize='large' />, href: 'https://x.com', label: 'Twitter' },
+    {
+      icon: <LinkedIn fontSize='large' />,
+      href: 'https://linkedin.com',
+      label: 'LinkedIn',
+    },
+    {
+      icon: <Instagram fontSize='large' />,
+      href: 'https://instagram.com',
+      label: 'Instagram',
+    },
+    {
+      icon: <YouTube fontSize='large' />,
+      href: 'https://youtube.com',
+      label: 'YouTube',
+    },
   ];
 
   const legalLinks = [
-    { name: 'About', href: '#' },
-    { name: 'Terms', href: '#' },
-    { name: 'Policies', href: '#' },
-    { name: 'Contact', href: '#' },
+    { name: 'About', href: '/about' },
+    { name: 'Terms', href: '/terms-and-conditions' },
+    { name: 'Policies', href: '/policies' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (

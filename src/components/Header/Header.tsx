@@ -23,14 +23,14 @@ import {
 import { useNavigate } from 'react-router';
 export const Header = () => {
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
-  const navigating = useNavigate();
+  const navigate = useNavigate();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElement(event.currentTarget);
   };
 
   const handleNavigate = (path: string) => {
-    navigating(path);
+    navigate(path);
     handleClose();
   };
   const handleClose = () => {
@@ -58,6 +58,7 @@ export const Header = () => {
               size='large'
               aria-label='return to main page'
               color='inherit'
+              onClick={() => navigate('/')}
             >
               <Home />
             </IconButton>
@@ -67,6 +68,7 @@ export const Header = () => {
               size='large'
               aria-label='the cart of the current user'
               color='inherit'
+              onClick={() => navigate('/cart')}
             >
               <ShoppingCart />
             </IconButton>
@@ -76,6 +78,7 @@ export const Header = () => {
               size='large'
               aria-label='account of the current user'
               color='inherit'
+              onClick={() => navigate('/account')}
             >
               <AccountCircle />
             </IconButton>
