@@ -25,9 +25,11 @@ export interface NormalizedApiResponse {
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
+  tagTypes: ['Products', 'AllProducts'],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
   endpoints: (builder) => ({
     getProducts: builder.query<NormalizedApiResponse, QueryParams>({
+      providesTags: (_result, _error) => [{ type: 'Products' }],
       query: (params) => ({
         url: '/products',
         params,
@@ -44,7 +46,33 @@ export const productsApi = createApi({
         return response;
       },
     }),
+    updateProductStatus: builder.mutation<Ecommerce.ProductModel, number>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_result, _error) => [{ type: 'AllProducts' }],
+    }),
+    getAllProducts: builder.query<NormalizedApiResponse, QueryParams>({
+      providesTags: (_result, _error) => [{ type: 'AllProducts' }],
+      query: (params) => ({
+        url: '/products/all',
+        params,
+      }),
+      transformResponse: (response: ApiResponse) => {
+        const { products, page, limit, totalCount, totalPages } = response;
+        const productsList = normalizeProducts(products);
+        return { productsList, page, limit, totalCount, totalPages };
+      },
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productsApi;
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useUpdateProductStatusMutation,
+  useGetAllProductsQuery,
+  useLazyGetAllProductsQuery,
+  useLazyGetProductsQuery,
+} = productsApi;

@@ -1,5 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Dinero from 'dinero.js';
+
+import { useUpdateProductStatusMutation } from '../../services/productsService';
+import { NormalizedApiResponse } from '../../services/productsService';
+
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner';
 
 import {
   Table,
@@ -15,10 +20,9 @@ import { RadioButtonUnchecked, CheckCircleOutline } from '@mui/icons-material';
 
 import { StyleTableCell, StyledTableRow } from './Components';
 
-import { NormalizedApiResponse } from '../../services/productsService';
-
 interface ProductTableProps {
   Products: NormalizedApiResponse;
+  setRefetchAllProducts: (value: boolean) => void;
 }
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -27,7 +31,27 @@ const imageUrl = `${baseUrl}${imagePath}`;
 
 export const ProductTable: FC<ProductTableProps> = ({
   Products: { productsList },
+  setRefetchAllProducts,
 }) => {
+  const [loadingState, setLoadingState] = useState(false);
+  const [updateProductStatus] = useUpdateProductStatusMutation();
+
+  const handleEdit = (id: number) => {
+    console.log(`Edit product with id: ${id}`);
+  };
+
+  const handlePublish = async (id: number) => {
+    setLoadingState(true);
+    setRefetchAllProducts(true);
+    try {
+      await updateProductStatus(id).unwrap();
+      setLoadingState(false);
+    } catch (error) {
+      console.error(`Failed to update product status for id: ${id}`, error);
+      setLoadingState(false);
+    }
+  };
+
   return (
     <TableContainer
       component={Paper}
@@ -44,9 +68,9 @@ export const ProductTable: FC<ProductTableProps> = ({
             <StyleTableCell>Quantity</StyleTableCell>
             <StyleTableCell>Image</StyleTableCell>
             <StyleTableCell>Percentage</StyleTableCell>
-            <StyleTableCell>OnSale</StyleTableCell>
+            <StyleTableCell>On Sale?</StyleTableCell>
             <StyleTableCell>Edit</StyleTableCell>
-            <StyleTableCell>Inactive</StyleTableCell>
+            <StyleTableCell>Public</StyleTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -102,14 +126,32 @@ export const ProductTable: FC<ProductTableProps> = ({
                 )}
               </StyleTableCell>
               <StyleTableCell align='right'>
-                <Button color='secondary' variant='contained'>
+                <Button
+                  color='secondary'
+                  variant='contained'
+                  onClick={() => handleEdit(id)}
+                >
                   Edit
                 </Button>
               </StyleTableCell>
               <StyleTableCell align='right'>
-                <Button color='warning' variant='contained'>
-                  Make Inactive
-                </Button>
+                {productsList.productList[id].isPublic ? (
+                  <Button
+                    color='warning'
+                    variant='contained'
+                    onClick={() => handlePublish(id)}
+                  >
+                    {loadingState ? <LoadingSpinner /> : 'Unpublish'}
+                  </Button>
+                ) : (
+                  <Button
+                    color='success'
+                    variant='contained'
+                    onClick={() => handlePublish(id)}
+                  >
+                    {loadingState ? <LoadingSpinner /> : 'Publish'}
+                  </Button>
+                )}
               </StyleTableCell>
             </StyledTableRow>
           ))}

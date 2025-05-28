@@ -1,5 +1,8 @@
-import { ChangeEvent, useState, FC } from 'react';
-import { useGetProductsQuery } from '../services/productsService';
+import { ChangeEvent, useState, FC, useEffect } from 'react';
+import {
+  useLazyGetProductsQuery,
+  useLazyGetAllProductsQuery,
+} from '../services/productsService';
 import { PaginationComponent } from '../components/Pagination/Pagination';
 import { Box, SelectChangeEvent } from '@mui/material';
 import { LoadingSpinner } from '../components/LoadingSpinner/LoadingSpinner';
@@ -17,10 +20,38 @@ interface AllProductsPageProps {
 export const AllProductsPage: FC<AllProductsPageProps> = ({ displayMode }) => {
   const [limit, setLimit] = useState(25);
   const [page, setPage] = useState(1);
-  const { data: products, isLoading } = useGetProductsQuery({
-    limit,
-    page,
-  });
+  const [refetchAllProducts, setRefetchAllProducts] = useState(false);
+
+  const [getProducts, { data: products, isLoading }] =
+    useLazyGetProductsQuery();
+
+  const [
+    getAllProducts,
+    { data: allProducts, isLoading: isAllProductsLoading },
+  ] = useLazyGetAllProductsQuery();
+
+  useEffect(() => {
+    if (products && page > products?.totalPages) {
+      getProducts({ limit, page: 1 });
+    }
+
+    if (displayMode === DisplayMode.GRID) {
+      getProducts({ limit, page });
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (displayMode === DisplayMode.LIST) {
+      getAllProducts({ limit, page });
+    }
+  }, [displayMode, limit, page]);
+
+  useEffect(() => {
+    if (displayMode === DisplayMode.LIST && refetchAllProducts) {
+      getAllProducts({ limit, page });
+      setRefetchAllProducts(false);
+    }
+  }, [displayMode, refetchAllProducts]);
 
   const handleLimitChange = (event: SelectChangeEvent) => {
     setLimit(parseInt(event.target.value));
@@ -33,13 +64,17 @@ export const AllProductsPage: FC<AllProductsPageProps> = ({ displayMode }) => {
 
   return (
     <Box>
-      {isLoading && <LoadingSpinner />}
+      {(isLoading || isAllProductsLoading) && <LoadingSpinner />}
 
-      {!isLoading && products && (
+      {!isLoading && !isAllProductsLoading && products && (
         <Box>
           <PaginationComponent
             page={page}
-            totalPages={products.totalPages}
+            totalPages={
+              displayMode === DisplayMode.LIST
+                ? allProducts?.totalPages ?? 2
+                : products?.totalPages
+            }
             limit={limit}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}
@@ -47,12 +82,19 @@ export const AllProductsPage: FC<AllProductsPageProps> = ({ displayMode }) => {
           {displayMode === DisplayMode.GRID && (
             <ProductGrid Products={products} />
           )}
-          {displayMode === DisplayMode.LIST && (
-            <ProductTable Products={products} />
+          {displayMode === DisplayMode.LIST && allProducts && (
+            <ProductTable
+              Products={allProducts}
+              setRefetchAllProducts={setRefetchAllProducts}
+            />
           )}
           <PaginationComponent
             page={page}
-            totalPages={products.totalPages}
+            totalPages={
+              displayMode === DisplayMode.LIST
+                ? allProducts?.totalPages ?? 2
+                : products?.totalPages
+            }
             limit={limit}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}
