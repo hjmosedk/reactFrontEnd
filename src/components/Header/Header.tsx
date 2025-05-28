@@ -20,11 +20,18 @@ import {
   ChecklistRtl,
 } from '@mui/icons-material';
 
+import { useNavigate } from 'react-router';
 export const Header = () => {
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
+  const navigating = useNavigate();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElement(event.currentTarget);
+  };
+
+  const handleNavigate = (path: string) => {
+    navigating(path);
+    handleClose();
   };
   const handleClose = () => {
     setAnchorElement(null);
@@ -88,13 +95,13 @@ export const Header = () => {
             open={Boolean(anchorElement)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => handleNavigate('/new-product')}>
               New Product <AddCircle sx={{ paddingLeft: 1 }} />
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => handleNavigate('/all-products')}>
               List All Products <Inventory2 sx={{ paddingLeft: 1 }} />
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => handleNavigate('/all-orders')}>
               List All Orders {} <ChecklistRtl sx={{ paddingLeft: 1 }} />
             </MenuItem>
           </Menu>
