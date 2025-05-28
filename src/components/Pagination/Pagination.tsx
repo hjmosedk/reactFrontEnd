@@ -46,9 +46,18 @@ export const PaginationComponent: FC<PaginationComponentProps> = ({
       <Pagination
         count={totalPages}
         page={page}
-        color='primary'
         onChange={handlePageChange}
         size='large'
+        sx={(theme) => ({
+          '& .MuiPaginationItem-root': {
+            color: theme.palette.common.white,
+            backgroundColor: theme.palette.primary.light,
+          },
+          '& .MuiPaginationItem-root.Mui-selected': {
+            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.primary.dark,
+          },
+        })}
       />
     </Stack>
   );

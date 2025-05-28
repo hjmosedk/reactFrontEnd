@@ -1,10 +1,10 @@
 import { ChangeEvent, useState, FC } from 'react';
 import { useGetProductsQuery } from '../services/productsService';
 import { PaginationComponent } from '../components/Pagination/Pagination';
-import { Box, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, SelectChangeEvent } from '@mui/material';
 import { LoadingSpinner } from '../components/LoadingSpinner/LoadingSpinner';
 import { ProductGrid } from '../components/ProductGrid/ProductGrid';
-
+import { ProductTable } from '../components/ProductTable/ProductTable';
 export enum DisplayMode {
   GRID = 'grid',
   LIST = 'list',
@@ -48,7 +48,7 @@ export const AllProductsPage: FC<AllProductsPageProps> = ({ displayMode }) => {
             <ProductGrid Products={products} />
           )}
           {displayMode === DisplayMode.LIST && (
-            <Typography>This is the display list</Typography>
+            <ProductTable Products={products} />
           )}
           <PaginationComponent
             page={page}
